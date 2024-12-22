@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f7f3e9;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      position: relative;
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    button#yes {
+      background: #4caf50;
+      color: white;
+    }
+
+    button#no {
+      background: #f44336;
+      color: white;
+      position: absolute;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 1.8rem;
+      color: #ff5722;
+      visibility: hidden;
+    }
+
+    .eyes {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .eye {
+      width: 50px;
+      height: 50px;
+      background: white;
+      border: 2px solid black;
+      border-radius: 50%;
+      margin: 0 10px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pupil {
+      width: 20px;
+      height: 20px;
+      background: black;
+      border-radius: 50%;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <h1>Do you love me?</h1>
+  <div class="eyes">
+    <div class="eye"><div class="pupil"></div></div>
+    <div class="eye"><div class="pupil"></div></div>
+  </div>
+  <div class="buttons">
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
+  <div id="message">I love you too! ❤️</div>
+
+  <script>
+    const noButton = document.getElementById('no');
+    const yesButton = document.getElementById('yes');
+    const message = document.getElementById('message');
+    const pupils = document.querySelectorAll('.pupil');
+
+    // Move "No" button away
+    noButton.addEventListener('mouseenter', () => {
+      const x = Math.random() * window.innerWidth * 0.8;
+      const y = Math.random() * window.innerHeight * 0.8;
+      noButton.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // Show message when "Yes" is clicked
+    yesButton.addEventListener('click', () => {
+      message.style.visibility = 'visible';
+    });
+
+    // Eye animation following the pointer
+    document.addEventListener('mousemove', (event) => {
+      const x = event.clientX;
+      const y = event.clientY;
+
+      pupils.forEach(pupil => {
+        const rect = pupil.getBoundingClientRect();
+        const pupilX = rect.left + rect.width / 2;
+        const pupilY = rect.top + rect.height / 2;
+
+        const angle = Math.atan2(y - pupilY, x - pupilX);
+        const distance = Math.min(15, Math.hypot(x - pupilX, y - pupilY));
+
+        pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
